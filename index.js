@@ -67,3 +67,13 @@ app.put("/genres/:gid", (req, res) => {
   newgenre.name = req.body.name;
   res.send(newgenre);
 });
+
+// handling delete request
+
+app.delete("/genres/:gid", (req, res) => {
+  const genre = genres.find((g) => g.id === parseInt(req.params.gid));
+  if (!genre) return res.status(404).send("Genre not availabe with that ID");
+  const index = genres.indexOf(genre);
+  genres.splice(index, 1);
+  res.send(genre);
+});
