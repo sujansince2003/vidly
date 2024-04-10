@@ -56,3 +56,14 @@ app.post("/genres", (req, res) => {
   res.send(genre);
   console.log(genres);
 });
+
+// handling put request for updating the genre
+app.put("/genres/:gid", (req, res) => {
+  const newgenre = genres.find((g) => g.id === parseInt(req.params.gid));
+  if (!newgenre) return res.status(404).send("Genre not availabe with that ID");
+
+  const { error } = schemaValid(req.body);
+  if (error) return res.status(404).send(error.details[0].message);
+  newgenre.name = req.body.name;
+  res.send(newgenre);
+});
