@@ -1,6 +1,14 @@
 const express = require("express");
 const Joi = require("joi");
+const mongoose = require("mongoose");
 const genres = require("./routes/genres");
+
+// connect to mongodb
+
+mongoose
+  .connect("mongodb://127.0.0.1:27017/rentvid")
+  .then(() => console.log("Connected to mongoDB"))
+  .catch((err) => console.log("Failed connection"));
 
 const app = express();
 app.use(express.json());
