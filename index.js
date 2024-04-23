@@ -2,6 +2,7 @@ const express = require("express");
 const Joi = require("joi");
 const mongoose = require("mongoose");
 const genres = require("./routes/genres");
+const customers = require("./routes/customers");
 
 // connect to mongodb
 
@@ -20,3 +21,4 @@ app.get("/", (req, res) => {
   res.send("this is genre homepage");
 });
 app.use("/genres", genres);
+app.use("/customers", customers);
