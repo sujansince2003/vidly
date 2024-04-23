@@ -1,20 +1,9 @@
 const Joi = require("joi");
 const express = require("express");
-const mongoose = require("mongoose");
+
 const router = express.Router();
 
-// defining schema
-const Genres = new mongoose.Schema({
-  name: {
-    type: String,
-    required: true,
-  },
-});
-
-// creating model
-
-const Genre = mongoose.model("Genres", Genres);
-
+const { Genre, validate } = require("../models/genre");
 router.get("/", async (req, res) => {
   const genres = await Genre.find().sort({ name: 1 });
   res.send(genres);
@@ -31,16 +20,8 @@ router.get("/:gid", async (req, res) => {
 
 // adding genre
 
-// defining schemavalidator
-function schemaValid(genre) {
-  const schema = Joi.object({
-    name: Joi.string().min(3).required(),
-  });
-  return schema.validate(genre);
-}
-
 router.post("/", async (req, res) => {
-  const { error } = schemaValid(req.body);
+  const { error } = validate(req.body);
   if (error) return res.status(404).send(error.details[0].message);
 
   let genre = new Genre({
@@ -52,7 +33,7 @@ router.post("/", async (req, res) => {
 
 // handling put request for updating the genre
 router.put("/:gid", async (req, res) => {
-  const { error } = schemaValid(req.body);
+  const { error } = validate(req.body);
   if (error) return res.status(404).send(error.details[0].message);
   const genre = await Genre.findByIdAndUpdate(
     req.params.gid,
