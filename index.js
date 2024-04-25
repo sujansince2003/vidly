@@ -3,6 +3,7 @@ const Joi = require("joi");
 const mongoose = require("mongoose");
 const genres = require("./routes/genres");
 const customers = require("./routes/customers");
+const movies = require("./routes/movies");
 
 // connect to mongodb
 
@@ -22,3 +23,4 @@ app.get("/", (req, res) => {
 });
 app.use("/genres", genres);
 app.use("/customers", customers);
+app.use("/movies", movies);
